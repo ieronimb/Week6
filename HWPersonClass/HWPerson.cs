@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace HWPersonClass
 {
-    class Program
+    class HWPerson
     {
         static void Main(string[] args)
         {
-            Person person = new Person();
+            Person person = new Person();           
+            person.Name = "Nume Necunoscut";
             Console.WriteLine(person.ToString());
-            person.Name = "Joro Petkoff";
-            Console.WriteLine(person.ToString());
-            person.Age = 19;
+            person.Age = 6;
             Console.WriteLine(person.ToString());
             Console.ReadLine();
         }
     }
 }
+
 

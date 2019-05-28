@@ -11,33 +11,21 @@ namespace HWPersonClass.Classes
         private string name;
         private int age;
 
+        //Constructor gol dinadins pentru a ne returna un nume gol
         public Person()
         {
-            this.name = null;
-            this.age = int.MinValue;
+
         }
 
         public Person(string name)
         {
-            this.name = name;
-            this.age = int.MinValue;
-        }
-
-        public Person(string name, int age)
-        {
-            this.name = name;
-            this.age = age;
+            this.name = name;           
         }
 
         public string Name
         {
             get { return this.name; }
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new NullReferenceException("Name must be filled!");
-                }
+            set {
                 this.name = value;
             }
         }
@@ -45,20 +33,14 @@ namespace HWPersonClass.Classes
         public int Age
         {
             get { return this.age; }
-            set
-            {
-                if (value < 0)
-                {
-                    throw new ArgumentException("Age can't be under 0!");
-                }
-                this.age = value;
-            }
+            set { this.age = value; }
+            
         }
 
         public override string ToString()
         {
             string result = "Name: " + this.name + "\n";
-            if (this.age < 0)
+            if (this.age <= 0)
             {
                 result += "Age is left unspecified.";
             }

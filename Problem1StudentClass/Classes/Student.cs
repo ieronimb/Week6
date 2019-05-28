@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace HWStudentClass.Classes
 
-{   //Enums
+{
+    //Problem 1. Student class
+    //Define a class Student, which contains data about a student – first, middle and last name, SSN, 
+    //permanent address, mobile phone e-mail, course, specialty, university, faculty.Use an enumeration for the specialties, universities and faculties.
+    //Override the standard methods, inherited by System.Object: Equals(), ToString(), GetHashCode() and operators ==and !=.
+
+    //Enums
     public enum SpecialityType
     {
         Istorie, Drept, Medicina, Tehnica
@@ -35,7 +41,8 @@ namespace HWStudentClass.Classes
         FacultyType faculty;
 
         //Constructori
-        public Student(string firstName, string middleName, string lastName, string ssn, string permanentAdress, string phoneNumber, string email, SpecialityType speciality, UniversityName university, FacultyType faculty)
+        public Student(string firstName, string middleName, string lastName, string ssn, string permanentAdress, 
+            string phoneNumber, string email, SpecialityType speciality, UniversityName university, FacultyType faculty)
         {
             this.firstName = firstName;
             this.middleName = middleName;
@@ -64,8 +71,8 @@ namespace HWStudentClass.Classes
 
         public string LastName
         {
-            get { return this.LastName; }
-            set { this.LastName = value; }
+            get { return this.lastName; }
+            set { this.lastName = value; }
         }
 
         public string SSN
@@ -111,59 +118,82 @@ namespace HWStudentClass.Classes
         }
 
         //Override System.Object: Equals()
-        public override bool Equals(object obj)
+        public override bool Equals(object param)
         {
-            Student student = obj as Student;
+            Student student = param as Student;
 
             if (student == null)
             {
                 return false;
             }
 
-            if (!((Object.Equals(this.firstName, student.FirstName)) && (Object.Equals(this.middleName, student.MiddleName)) && (Object.Equals(this.lastName, student.LastName))))
+            if (!Object.Equals(this.firstName, student.FirstName))              
             {
                 return false;
             }
-
+            if (!Object.Equals(this.middleName, student.MiddleName))
+            {
+                return false;
+            }
+            if (!Object.Equals(this.lastName, student.LastName))
+            {
+                return false;
+            }
+            if (!Object.Equals(this.ssn, student.SSN))
+            {
+                return false;
+            }           
             return true;
         }
-
-        public override int GetHashCode()
+        //Override GetHashCode()
+        public override int GetHashCode() //https://docs.microsoft.com/en-us/dotnet/api/system.object.gethashcode?view=netframework-4.8
         {
-            return (FirstName.GetHashCode() ^ MiddleName.GetHashCode() ^ LastName.GetHashCode());
+            return (FirstName.GetHashCode() 
+                    ^ MiddleName.GetHashCode() 
+                    ^ LastName.GetHashCode()
+                    ^ SSN.GetHashCode()); //https://www.tutorialspoint.com/csharp/csharp_operators.htm Binary XOR Operator copies the bit if it is set in one operand but not both.	(A ^ B) = 49, which is 0011 0001
         }
 
+        //Override ToString()
         public override string ToString()
         {
-            StringBuilder result = new StringBuilder();
-            result.AppendFormat("First name: {0}\nMiddle name: {1}\nLast name: {2}\nSSN: {3}\nAddress: {4}\n" +
-                "Phone number: {5}\nE-mail: {6}\nSpeciality: {7}\nUniversity: {8}\nFaculties: {9}", this.firstName, this.middleName, this.lastName, this.ssn, this.permanentAdress, this.phoneNumber, this.email, this.speciality, this.university, this.faculty);
+            StringBuilder output = new StringBuilder();
+            output.AppendFormat("First name: {0}\nMiddle name: {1}\nLast name: {2}\nSSN: {3}\nAddress: {4}\n" +
+                "Phone number: {5}\nE-mail: {6}\nSpeciality: {7}\nUniversity: {8}\nFaculties: {9}", 
+                this.firstName, this.middleName, this.lastName, this.ssn, this.permanentAdress,
+                this.phoneNumber, this.email, this.speciality, this.university, this.faculty);
 
-            return result.ToString();
+            return output.ToString();
         }
-
-        public static bool operator ==(Student firstStudent, Student secondStudent)
+        //Override operators ==
+        public static bool operator == (Student firstStudent, Student secondStudent)
         {
             return Student.Equals(firstStudent, secondStudent);
         }
-
+        //Override operators !=
         public static bool operator !=(Student firstStudent, Student secondStudent)
         {
             return !(Student.Equals(firstStudent, secondStudent));
         }
 
+        //Problem 2. ICloneable
+        //Add implementations of the ICloneable interface. The Clone() method should deeply copy all object's fields into a new object of type Student.
         public Student Clone()
         {
             Student original = this;
-            Student copy = new Student(original.firstName, original.middleName, original.lastName, original.ssn, original.permanentAdress, original.phoneNumber, original.email, original.speciality, original.university, original.faculty);
-            return copy;
+            Student newStudent = new Student(original.firstName, original.middleName, original.lastName, 
+                original.ssn, original.permanentAdress, original.phoneNumber, original.email, 
+                original.speciality, original.university, original.faculty);
+            return newStudent;
         }
-
+        
         object ICloneable.Clone()
         {
             return this.Clone();
         }
 
+        //Problem 3. IComparable
+        //Implement the IComparable<Student> interface to compare students by names(as first criteria, in lexicographic order) and by social security number(as second criteria, in increasing order).
         public int CompareTo(Student student)
         {
             if (this.FirstName != student.FirstName)
@@ -180,9 +210,6 @@ namespace HWStudentClass.Classes
             }
 
             return 0;
-
-
-
         }
     }
 }
